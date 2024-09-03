@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/bars-basicSpring-main.iml" filepath="$PROJECT_DIR$/.idea/bars-basicSpring-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/handson/handson.iml" filepath="$PROJECT_DIR$/handson/handson.iml" />
     </modules>
   </component>
 </project>
