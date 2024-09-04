@@ -1,6 +1,6 @@
-package com.handson.handson.repo;
+package com.handson.basic.repo;
 
-import com.handson.handson.model.Student;
+import com.handson.basic.model.Student;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

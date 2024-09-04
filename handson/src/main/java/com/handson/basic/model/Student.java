@@ -1,8 +1,8 @@
-package com.handson.handson.model;
+package com.handson.basic.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.handson.handson.util.Dates;
+import com.handson.basic.util.Dates;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.LocalDateTime;
 
@@ -12,6 +12,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -58,6 +60,13 @@ public class Student implements Serializable {
 
     @Length(max = 500)
     private String profilePicture;
+
+    public Collection<StudentGrade> getStudentGrades() {
+        return studentGrades;
+    }
+
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Collection<StudentGrade> studentGrades = new ArrayList<>();
 
     public Long getId() {
         return id;

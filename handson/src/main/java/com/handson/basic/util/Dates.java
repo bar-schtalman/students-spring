@@ -1,4 +1,4 @@
-package com.handson.handson.util;
+package com.handson.basic.util;
 
 import org.joda.time.*;
 import org.springframework.lang.Nullable;

@@ -1,4 +1,4 @@
-package com.handson.handson.config;
+package com.handson.basic.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

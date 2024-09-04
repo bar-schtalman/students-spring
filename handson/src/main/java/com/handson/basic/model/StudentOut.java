@@ -1,9 +1,9 @@
-package com.handson.handson.model;
+package com.handson.basic.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.handson.handson.util.Dates;
+import com.handson.basic.util.Dates;
 import org.joda.time.LocalDateTime;
 import javax.persistence.Id;
 
@@ -41,6 +41,23 @@ public class StudentOut {
 
     private String phone;
     private String profilepicture;
+    private Double avgscore;
+
+    public Integer getSatscore() {
+        return satscore;
+    }
+
+    public Double getGraduationscore() {
+        return graduationscore;
+    }
+
+    public String getProfilepicture() {
+        return profilepicture;
+    }
+
+    public Double getAvgscore() {
+        return avgscore;
+    }
 
     public Integer getSatScore() {
         return satscore;

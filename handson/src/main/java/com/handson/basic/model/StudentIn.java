@@ -1,7 +1,7 @@
-package com.handson.handson.model;
+package com.handson.basic.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.handson.handson.util.Dates;
+import com.handson.basic.util.Dates;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.LocalDate;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 
-import static com.handson.handson.model.Student.StudentBuilder.aStudent;
+import static com.handson.basic.model.Student.StudentBuilder.aStudent;
 
 public class StudentIn implements Serializable {
 
