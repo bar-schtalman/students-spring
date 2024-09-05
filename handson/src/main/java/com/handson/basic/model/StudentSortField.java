@@ -8,6 +8,7 @@ public enum StudentSortField {
     satScore ("sat_score"),
     graduationScore ("graduation_score"),
     phone ("phone"),
+    email("email"),
     profilepicture ("profile_picture"),
     avgScore (" (select avg(sg.course_score) from  student_grade sg where sg.student_id = s.id ) ");
 

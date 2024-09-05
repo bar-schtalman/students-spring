@@ -10,6 +10,7 @@ import com.handson.basic.model.StudentOut;
 import com.handson.basic.model.StudentSortField;
 import com.handson.basic.repo.StudentService;
 import com.handson.basic.util.AWSService;
+import com.handson.basic.util.EmailService;
 import com.handson.basic.util.SmsService;
 import org.apache.commons.collections4.IteratorUtils;
 import org.joda.time.LocalDate;
@@ -51,6 +52,9 @@ public class StudentsController {
     @Autowired
     SmsService smsService;
 
+    @Autowired
+    EmailService emailService;
+
     @RequestMapping(value = "/{id}/image", method = RequestMethod.PUT)
     public ResponseEntity<?> uploadStudentImage(@PathVariable Long id,  @RequestParam("image") MultipartFile image)
     {
@@ -82,6 +86,7 @@ public class StudentsController {
                         aFPSField().field("s.sat_score").alias("satscore").build(),
                         aFPSField().field("s.graduation_score").alias("graduationscore").build(),
                         aFPSField().field("s.phone").alias("phone").build(),
+                        aFPSField().field("s.email").alias("email").build(),
                         aFPSField().field("s.profile_picture").alias("profilepicture").build(),
                         aFPSField().field("(select avg(sg.course_score) from  student_grade sg where sg.student_id = s.id ) ").alias("avgscore").build()
                 ))
@@ -146,5 +151,17 @@ public class StudentsController {
                     .forEach(phone -> smsService.send(text, phone));
         }).start();
         return new ResponseEntity<>("SENDING", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/email/all", method = RequestMethod.POST)
+    public ResponseEntity<?> emailAll(@RequestParam String subject, @RequestParam String body) {
+        new Thread(() -> {
+            IteratorUtils.toList(studentService.all().iterator())
+                    .parallelStream()
+                    .map(Student::getEmail)  // Assuming the Student class has an getEmail method
+                    .filter(email -> email != null && !email.trim().isEmpty())
+                    .forEach(email -> emailService.sendSimpleEmail(email, subject, body));
+        }).start();
+        return new ResponseEntity<>("EMAILS SENDING", HttpStatus.OK);
     }
 }

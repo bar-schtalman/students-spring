@@ -57,6 +57,8 @@ public class Student implements Serializable {
 
     @Length(max = 20)
     private String phone;
+    @Column(name = "email")
+    private String email;
 
     @Length(max = 500)
     private String profilePicture;
@@ -104,6 +106,14 @@ public class Student implements Serializable {
         return satScore;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setSatScore(Integer satScore) {
         this.satScore = satScore;
     }
@@ -140,7 +150,9 @@ public class Student implements Serializable {
         private @Min(100) @Max(800) Integer satScore;
         private @Min(30) @Max(110) Double graduationScore;
         private @Length(max = 20) String phone;
+        private String email;
         private @Length(max = 500) String profilePicture;
+        private Collection<StudentGrade> studentGrades;
 
         private StudentBuilder() {
         }
@@ -184,21 +196,40 @@ public class Student implements Serializable {
             return this;
         }
 
+        public StudentBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
         public StudentBuilder profilePicture(String profilePicture) {
             this.profilePicture = profilePicture;
             return this;
         }
 
+        public StudentBuilder studentGrades(Collection<StudentGrade> studentGrades) {
+            this.studentGrades = studentGrades;
+            return this;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
         public Student build() {
             Student student = new Student();
-            student.birthDate = this.birthDate;
-            student.id = this.id;
-            student.profilePicture = this.profilePicture;
-            student.createdAt = this.createdAt;
-            student.fullname = this.fullname;
-            student.graduationScore = this.graduationScore;
-            student.satScore = this.satScore;
-            student.phone = this.phone;
+            student.setId(id);
+            student.setCreatedAt(createdAt);
+            student.setFullname(fullname);
+            student.setBirthDate(birthDate);
+            student.setSatScore(satScore);
+            student.setGraduationScore(graduationScore);
+            student.setPhone(phone);
+            student.setProfilePicture(profilePicture);
+            student.setEmail(email);
             return student;
         }
     }
