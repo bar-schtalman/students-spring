@@ -10,6 +10,8 @@ import com.handson.basic.model.StudentOut;
 import com.handson.basic.model.StudentSortField;
 import com.handson.basic.repo.StudentService;
 import com.handson.basic.util.AWSService;
+import com.handson.basic.util.SmsService;
+import org.apache.commons.collections4.IteratorUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +25,7 @@ import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Optional;
 
+import static ch.qos.logback.core.util.OptionHelper.isEmpty;
 import static com.handson.basic.util.FPS.FPSBuilder.aFPS;
 import static com.handson.basic.util.FPSCondition.FPSConditionBuilder.aFPSCondition;
 import static com.handson.basic.util.FPSField.FPSFieldBuilder.aFPSField;
@@ -44,6 +47,9 @@ public class StudentsController {
 
     @Autowired
     AWSService awsService;
+
+    @Autowired
+    SmsService smsService;
 
     @RequestMapping(value = "/{id}/image", method = RequestMethod.PUT)
     public ResponseEntity<?> uploadStudentImage(@PathVariable Long id,  @RequestParam("image") MultipartFile image)
@@ -127,5 +133,18 @@ public class StudentsController {
     public ResponseEntity<?> getHighSatStudents(@RequestParam Integer sat)
     {
         return new ResponseEntity<>(studentService.getStudentWithSatHigherThan(sat), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/sms/all", method = RequestMethod.POST)
+    public ResponseEntity<?> smsAll(@RequestParam String text)
+    {
+        new Thread(()-> {
+            IteratorUtils.toList(studentService.all().iterator())
+                    .parallelStream()
+                    .map(student -> student.getPhone())
+                    .filter(phone -> !isEmpty(phone))
+                    .forEach(phone -> smsService.send(text, phone));
+        }).start();
+        return new ResponseEntity<>("SENDING", HttpStatus.OK);
     }
 }
